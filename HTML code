@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional Healthcare Management System">
+    <title>HealthCare Pro | Patient Management</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #22C55E;
+            --primary-dark: #16A34A;
+            --background: #F8FAFC;
+            --text: #1E293B;
+            --text-light: #64748B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Main Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr 2fr;
+            }
+        }
+
+        /* Form Section */
+        .form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.1);
+        }
+
+        .submit-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Patient List */
+        .patient-list {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+
+        .list-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .list-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .list-items {
+            padding: 1rem 0;
+        }
+
+        .patient-card {
+            padding: 1.25rem 2rem;
+            border-bottom: 1px solid #E2E8F0;
+            transition: background 0.2s;
+        }
+
+        .patient-card:hover {
+            background: #F8FAFC;
+        }
+
+        .patient-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .patient-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .patient-age {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .patient-condition {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-light);
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            border-top: 1px solid #E2E8F0;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-text {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .patient-card {
+                padding: 1rem;
+            }
+            
+            .patient-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="nav-brand">
+                <i class="fas fa-hospital"></i>
+                HealthCare Pro
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="main-grid">
+            <!-- Patient Registration -->
+            <section class="form-section">
+                <h2 class="form-title">New Patient Registration</h2>
+                <form id="patientForm">
+                    <div class="input-group">
+                        <label class="input-label" for="name">Full Name</label>
+                        <input type="text" id="name" class="input-field" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="age">Age</label>
+                        <input type="number" id="age" class="input-field" placeholder="35" min="0" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="condition">Medical Condition</label>
+                        <input type="text" id="condition" class="input-field" placeholder="Hypertension" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-user-plus"></i> Register Patient
+                    </button>
+                </form>
+            </section>
+
+            <!-- Patient List -->
+            <section class="patient-list">
+                <div class="list-header">
+                    <h2 class="list-title">Patient Records</h2>
+                </div>
+                <div class="list-items" id="patientList">
+                    <!-- Empty State -->
+                    <div class="empty-state">
+                        <i class="fas fa-user-injured fa-2x"></i>
+                        <p class="mt-2">No patients registered yet</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="footer-text">&copy; 2023 HealthCare Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const patientForm = document.getElementById('patientForm');
+        const patientList = document.getElementById('patientList');
+
+        // Load existing patients from localStorage
+        let patients = JSON.parse(localStorage.getItem('patients')) || [];
+        
+        // Initial render
+        renderPatients();
+
+        patientForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const condition = document.getElementById('condition').value;
+
+            if (!name || !age || !condition) return;
+
+            const newPatient = {
+                id: Date.now(),
+                name,
+                age,
+                condition,
+                date: new Date().toLocaleDateString()
+            };
+
+            patients.push(newPatient);
+            saveToLocalStorage();
+            renderPatients();
+            patientForm.reset();
+        });
+
+        function renderPatients() {
+            patientList.innerHTML = patients.length > 0 
+                ? patients.map(patient => `
+                    <div class="patient-card">
+                        <div class="patient-meta">
+                            <span class="patient-name">${patient.name}</span>
+                            <span class="patient-age">${patient.age} years old</span>
+                        </div>
+                        <div class="patient-condition">
+                            ${patient.condition} • Registered on ${patient.date}
+                        </div>
+                    </div>
+                `).join('')
+                : `<div class="empty-state">
+                    <i class="fas fa-user-injured fa-2x"></i>
+                    <p class="mt-2">No patients registered yet</p>
+                   </div>`;
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('patients', JSON.stringify(patients));
+        }
+    </script>
+</body>
+</html>
